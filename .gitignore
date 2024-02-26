@@ -1,0 +1,11 @@
+# Environment veriables
+.env
+
+# Python stuff
+__pycache__/
+
+# VSCode
+.vscode/
+
+# test file
+1.py
