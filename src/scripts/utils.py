@@ -4,16 +4,12 @@ from typing import Dict, List
 import requests
 from bs4 import BeautifulSoup
 
-API_KEY_OMDB = "ff3e7091"
-BASE_URL = "http://www.omdbapi.com/"
-
 headers = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/117.0.0.0 Safari/537.36"
     )
 }
-url_imdb_top = "https://www.imdb.com/chart/top/?ref_=nv_mv_250"
 
 
 def create_soup(url) -> BeautifulSoup:
@@ -21,7 +17,6 @@ def create_soup(url) -> BeautifulSoup:
     response = sessinon.get(url=url, headers=headers)
 
     if response.status_code == 200:
-
         html_content = response.text
         return BeautifulSoup(html_content, "html.parser")
 
@@ -30,13 +25,14 @@ def create_soup(url) -> BeautifulSoup:
 
 
 def get_imdb_ids_top(url) -> List[str]:
-    soup = create_soup(url=url)
 
+    soup = create_soup(url=url)
     links: List[str] = soup.find_all("a", class_="ipc-title-link-wrapper", href=True)
 
     imdb_ids: List[str] = []
 
     for link in links:
+
         href = link["href"]
         if "title/tt" in href:
             parts: List[str] = href.split("/")
@@ -47,31 +43,35 @@ def get_imdb_ids_top(url) -> List[str]:
     return imdb_ids
 
 
-def get_movies(url: str, api_key: str, imdb_ids: List[str]) -> Dict[str, str]:
+def get_movies(url: str, api_key: str, imdb_ids: List[str]) -> List[Dict[str, str]]:
 
-    params = {
+    params: dict = {
         "apikey": api_key,
     }
+    results: List[Dict] = []
 
-    for imdb_id in imdb_ids[:10]:
+    for imdb_id in imdb_ids[2:4]:
 
         params["i"] = imdb_id
         response = requests.get(url, params=params)
 
         if response.status_code == 200:
-            movie_data = response.json()
+            result = response.json()
+            results.append(result)
 
-        print(
-            f"Tittle: {movie_data['Title']}\n"
-            f"Director: {movie_data['Director']}\n"
-            f"Actors: {movie_data['Actors']}\n"
-            f"_____________"
-        )
+        try:
+            print(
+                f"Tittle: {result['Title']}\n"
+                f"Director: {result['Director']}\n"
+                f"Actors: {result['Actors']}\n"
+                f"Year: {result['Year']}\n"
+                f"_____________"
+            )
+        except KeyError as e:
 
-        time.sleep(3)
+            print(f"KeyError: {e} - Some key is missing in the result dictionary.")
+            continue
 
-    return movie_data
+        time.sleep(1)
 
-
-imdb_ids = get_imdb_ids_top(url_imdb_top)
-get_movies(url=BASE_URL, api_key=API_KEY_OMDB, imdb_ids=imdb_ids)
+    return results
