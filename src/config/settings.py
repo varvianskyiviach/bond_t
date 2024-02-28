@@ -19,7 +19,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["movies"]
+LOCAL_APPS = ["movies", "shared"]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
