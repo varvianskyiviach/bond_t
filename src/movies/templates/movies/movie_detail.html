@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Detail</title>
+</head>
+<body>
+    <h1>{{ movie.title }}</h1>
+    <p>Release Year: {{ movie.release_year }}</p>
+    <p>Directors:</p>
+    <ul>
+        {% for director in movie.directors.all %}
+            <li>{{ director.name }}</li>
+        {% endfor %}
+    </ul>
+    <p>Actors:</p>
+    <ul>
+        {% for actor in movie.actors.all %}
+            <li>{{ actor.name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'movie_update' movie.id %}">Update</a>
+    <form action="{% url 'movie_delete' movie.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+    </form>
+    <a href="{% url 'movie_list' %}">Back to List</a>
+</body>
+</html>

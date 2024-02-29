@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if movie %}Update{% else %}Create{% endif %} Movie</title>
+</head>
+<body>
+    <h1>{% if movie %}Update{% else %}Create{% endif %} Movie</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ movie.title if movie else '' }}">
+        <label for="release_year">Release Year:</label>
+        <input type="number" id="release_year" name="release_year" value="{{ movie.release_year if movie else '' }}">
+        <label for="directors">Directors:</label>
+        <select name="directors" id="directors" multiple>
+            {% for person in directors %}
+                <option value="{{ person.id }}">{{ person.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="actors">Actors:</label>
+        <select name="actors" id="actors" multiple>
+            {% for person in actors %}
+                <option value="{{ person.id }}">{{ person.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+    <a href="{% url 'movie_list' %}">Back to List</a>
+</body>
+</html>
