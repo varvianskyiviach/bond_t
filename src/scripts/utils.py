@@ -1,4 +1,3 @@
-import time
 from typing import Dict, List
 
 import requests
@@ -50,7 +49,7 @@ def get_movies(url: str, api_key: str, imdb_ids: List[str]) -> List[Dict[str, st
     }
     results: List[Dict] = []
 
-    for imdb_id in imdb_ids[2:4]:
+    for imdb_id in imdb_ids:
 
         params["i"] = imdb_id
         response = requests.get(url, params=params)
@@ -71,7 +70,5 @@ def get_movies(url: str, api_key: str, imdb_ids: List[str]) -> List[Dict[str, st
 
             print(f"KeyError: {e} - Some key is missing in the result dictionary.")
             continue
-
-        time.sleep(1)
 
     return results
