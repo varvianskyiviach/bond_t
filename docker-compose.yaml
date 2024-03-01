@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: python src/manage.py runserver 0.0.0.0:8000
+    command: "gunicorn src.config.wsgi -c gunicorn_config.py"
     image: movies_t
     container_name: movies_app
     env_file: .env
