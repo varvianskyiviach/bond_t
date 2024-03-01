@@ -1,16 +1,20 @@
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .filters import MovieFilter
 from .forms import MovieForm
 from .models import Movie
 
 
 def movies_page(request):
     movies = Movie.objects.all()
+    filter = MovieFilter(request.GET, queryset=movies)
+    movies = filter.qs
+
     paginator = Paginator(movies, 25)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "movies/movie_list.html", {"page_obj": page_obj})
+    return render(request, "movies/movie_list.html", {"page_obj": page_obj, "filter": filter})
 
 
 def movie_detail_page(request, pk):

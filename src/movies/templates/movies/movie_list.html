@@ -4,6 +4,28 @@
 
 {% block content %}
 <h1>Movie List</h1>
+<form method="get">
+    <div style="display: flex; align-items: center;">
+        <label for="id_release_year" style="margin-right: 10px;">Release Year:</label>
+        {{ filter.form.release_year }}
+        <label for="id_directors" style="margin-left: 10px; margin-right: 10px;">Directors:</label>
+        <select name="directors" id="id_directors">
+            <option value="">All Directors</option>
+            {% for director in filter.form.directors.field.queryset %}
+                <option value="{{ director.id }}">{{ director.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="id_actors" style="margin-left: 10px;">Actors:</label>
+        <select name="actors" id="id_actors">
+            <option value="">All Actors</option>
+            {% for actor in filter.form.actors.field.queryset %}
+                <option value="{{ actor.id }}">{{ actor.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" style="margin-left: 10px;">Apply Filter</button>
+    </div>
+</form>
+
 <ul>
     {% for movie in page_obj %}
     <li><a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a></li>
