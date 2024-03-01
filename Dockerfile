@@ -5,6 +5,8 @@ ARG PIPENV_EXTRA_ARGS
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 
+WORKDIR /app/
+
 RUN apt-get update \
     # dependencies for building Python packages && cleaning up unused files
     && apt-get install -y build-essential \ 
