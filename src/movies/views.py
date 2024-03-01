@@ -1,46 +1,54 @@
-from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, redirect, render
 
+from .forms import MovieForm
 from .models import Movie
 
-# from django.shortcuts import render
 
-# # def movie_detail_page(request, pk):
-# #     movie = Movie.objects.get(pk=pk)
-# #     return render(request, 'movies/movie_detail.html', {"movie": movie})
-
-
-class MovieListView(ListView):
-    model = Movie
-    template_name = "movies/movie_list.html"
+def movies_page(request):
+    movies = Movie.objects.all()
+    paginator = Paginator(movies, 25)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "movies/movie_list.html", {"page_obj": page_obj})
 
 
-class MovieDetailView(DetailView):
-    model = Movie
-    template_name = "movies/movie_detail.html"
+def movie_detail_page(request, pk):
+    movie = Movie.objects.get(pk=pk)
+    return render(request, "movies/movie_detail.html", {"movie": movie})
 
 
-class MovieCreateView(CreateView):
-    model = Movie
-    fields = ["title", "release_year", "directors", "actors"]
-    template_name = "movies/movie_form.html"
-    success_url = reverse_lazy("movie_list")
+def create(request):
+    if request.method == "POST":
+        form = MovieForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("movie_list")
+    else:
+        form = MovieForm()
+
+    return render(request, "movies/movie_form.html", {"form": form})
 
 
-class MovieUpdateView(UpdateView):
-    model = Movie
-    fields = ["title", "release_year", "directors", "actors"]
-    template_name = "movies/movie_form.html"
-    success_url = reverse_lazy("movie_list")
+def update(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+
+    if request.method == "POST":
+        form = MovieForm(request.POST, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect("movie_detail", pk=pk)
+    else:
+        form = MovieForm(instance=movie)
+
+    return render(request, "movies/movie_form.html", {"form": form, "movie": movie})
 
 
-class MovieDeleteView(DeleteView):
-    model = Movie
-    template_name = "movies/movie_confirm_delete.html"
-    success_url = reverse_lazy("movie_list")
+def delete(request, pk):
+    movie = Movie.objects.get(id=pk)
+
+    if request.method == "POST":
+        movie.delete()
+        return redirect("movie_list")
+
+    return render(request, "movies/movie_confirm_delete.html", {"movie": movie})

@@ -1,11 +1,11 @@
-from os import getenv
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = getenv("DJANGO_SECRET_KEY", default="INVALID")
-DEBUG = getenv("DJANGO_DEBUG", default=False)
-ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="INVALID")
+DEBUG = os.getenv("DJANGO_DEBUG", default=False)
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
 
 
 # Application definition
@@ -63,11 +63,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": getenv("POSTGRES_DB"),
-        "HOST": getenv("POSTGRES_HOST"),
-        "PORT": getenv("POSTGRES_PORT"),
-        "USER": getenv("POSTGRES_USER"),
-        "PASSWORD": getenv("POSTGRES_PASSWORD"),
+        "NAME": os.getenv("POSTGRES_DB"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
     }
 }
 
@@ -106,6 +106,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

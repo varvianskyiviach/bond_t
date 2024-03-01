@@ -1,30 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Detail</title>
-</head>
-<body>
-    <h1>{{ movie.title }}</h1>
-    <p>Release Year: {{ movie.release_year }}</p>
-    <p>Directors:</p>
-    <ul>
-        {% for director in movie.directors.all %}
-            <li>{{ director.name }}</li>
-        {% endfor %}
-    </ul>
-    <p>Actors:</p>
-    <ul>
-        {% for actor in movie.actors.all %}
-            <li>{{ actor.name }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'movie_update' movie.id %}">Update</a>
-    <form action="{% url 'movie_delete' movie.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete">
-    </form>
-    <a href="{% url 'movie_list' %}">Back to List</a>
-</body>
-</html>
+{% extends './base.html' %}
+
+{% block title %}
+    Movie Detail
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="mt-4">{{ movie.title }}</h1>
+                <p class="lead">Release Year: {{ movie.release_year }}</p>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Directors
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for director in movie.directors.all %}
+                            <li class="list-group-item">{{ director.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Actors
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for actor in movie.actors.all %}
+                            <li class="list-group-item">{{ actor.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'movie_update' movie.id %}" class="btn btn-primary btn-block mb-2">Update</a>
+                        <form action="{% url 'movie_delete' movie.id %}" method="get">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger btn-block">
+                        </form>
+                        <a href="{% url 'movie_list' %}" class="btn btn-secondary btn-block mt-2">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

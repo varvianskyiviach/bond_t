@@ -12,9 +12,9 @@ urlpatterns = [
 
 
 urlpatterns += [
-    path("movies/", views.MovieListView.as_view(), name="movie_list"),
-    path("movies/<int:pk>/", views.MovieDetailView.as_view(), name="movie_detail"),
-    path("movies/create/", views.MovieCreateView.as_view(), name="movie_create"),
-    path("movies/<int:pk>/update/", views.MovieUpdateView.as_view(), name="movie_update"),
-    path("movies/<int:pk>/delete/", views.MovieDeleteView.as_view(), name="movie_delete"),
+    path("movies/", views.movies_page, name="movie_list"),
+    path("movies/<int:pk>/", views.movie_detail_page, name="movie_detail"),
+    path("movies/create/", views.create, name="movie_create"),
+    path("movies/<int:pk>/update/", views.update, name="movie_update"),
+    path("movies/<int:pk>/delete/", views.delete, name="movie_delete"),
 ]

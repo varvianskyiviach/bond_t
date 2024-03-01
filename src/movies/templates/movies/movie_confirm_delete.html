@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Delete</title>
-</head>
-<body>
-    <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete "{{ movie.title }}"?</p>
-    <form action="{% url 'movie_delete' movie.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Yes, Delete">
-    </form>
-    <a href="{% url 'movie_detail' movie.id %}">Cancel</a>
-</body>
-</html>
+{% extends 'movies/base.html' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-4">Confirm Delete</h1>
+        <p>Are you sure you want to delete "{{ movie.title }}"?</p>
+
+        <form action="{% url 'movie_delete' movie.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+        <a href="{% url 'movie_detail' movie.id %}" class="btn btn-secondary">Cancel</a>
+    </div>
+{% endblock %}
