@@ -1,4 +1,5 @@
 import os
+from distutils.util import strtobool
 from pathlib import Path
 
 SRC_DIR = Path(__file__).resolve().parent.parent
@@ -6,7 +7,7 @@ ROOT_DIR = SRC_DIR.parent
 
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="INVALID")
-DEBUG = os.getenv("DJANGO_DEBUG", default=False)
+DEBUG = strtobool(os.getenv("DJANGO_DEBUG", default="0"))
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
 
 
@@ -108,7 +109,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_ROOT = ROOT_DIR / "staticfiles"
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 
 # Default primary key field type
