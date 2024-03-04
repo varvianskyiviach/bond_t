@@ -1,11 +1,14 @@
 # Environment veriables
 .env
 
-# Python stuff
-__pycache__/
+# staticfiles
+staticfiles/
 
 # SQLite database
 *.sqlite3
+
+# Python stuff
+__pycache__/
 
 # VSCode
 .vscode/

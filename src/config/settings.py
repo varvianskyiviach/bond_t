@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+SRC_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = SRC_DIR.parent
+
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="INVALID")
 DEBUG = os.getenv("DJANGO_DEBUG", default=False)
@@ -105,6 +107,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATIC_ROOT = ROOT_DIR / "staticfiles"
 STATIC_URL = "static/"
 
 

@@ -15,6 +15,11 @@ pipenv shell
 # install deps
 pipenv sync --dev
 ```
+### <span style='color:yellow'>Collecting static files</span>
+```bash
+# copy all static files to the directory "staticfiles" 
+python src/manage.py collectstatic
+```
 
 ### Additional
 
@@ -26,12 +31,13 @@ pipenv lock
 pipenv update
 ```
 
+
 ### Run application
 ```bash
-# copy file
+# copy the default environment file to create your own configuration file:
 cp .env.default .env,
 
-# in the .env file
+# edit the .env file and set the PostgreSQL host to "localhost":
 POSTGRES_HOST = "localhost"
 
 # perform migrations
@@ -43,17 +49,17 @@ python src/manage.py createsuperuser
 # run django development server
 python src/manage.py runserver
 
-# run application with gunicorn wsgi server
+# alternative run application with gunicorn wsgi server
 gunicorn src.config.wsgi -c gunicorn_config.py
 ```
 ## <span style='color:red'>Run the application from the Docker using Docker Compose</span>
 
 
 ```bash
-# copy file
+# copy the default environment file to create your own configuration file:
 cp .env.default .env,
 
-# in the .env file
+# edit the .env file and set the PostgreSQL host to "postgres":
 POSTGRES_HOST = "postgres"
 
 # Build the application image
