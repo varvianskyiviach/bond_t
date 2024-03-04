@@ -28,19 +28,34 @@ pipenv update
 
 ### Run application
 ```bash
+# copy file
+cp .env.default .env,
+
+# in the .env file
+POSTGRES_HOST = "localhost"
+
 # perform migrations
 python src/manage.py migrate
 
 # create superuser
 python src/manage.py createsuperuser
 
-# run django server
+# run django development server
 python src/manage.py runserver
+
+# run application with gunicorn wsgi server
+gunicorn src.config.wsgi -c gunicorn_config.py
 ```
 ## <span style='color:red'>Run the application from the Docker using Docker Compose</span>
 
 
 ```bash
+# copy file
+cp .env.default .env,
+
+# in the .env file
+POSTGRES_HOST = "postgres"
+
 # Build the application image
 docker-compose build
 
@@ -52,6 +67,9 @@ docker exec -it movies_app bash
 
 # perform migrations
 python src/manage.py migrate
+
+# create superuser
+python src/manage.py createsuperuser
 ```
 
 ### Usefull commands

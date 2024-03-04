@@ -7,7 +7,7 @@ from .models import Movie
 
 
 def movies_page(request):
-    movies = Movie.objects.all()
+    movies = Movie.objects.all().order_by("id")
     filter = MovieFilter(request.GET, queryset=movies)
     movies = filter.qs
 
